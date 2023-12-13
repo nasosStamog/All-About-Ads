@@ -1,0 +1,76 @@
+@font-face {
+    font-family: myfont;
+    src: url(../../static/font/Drakalligro.otf) format("opentype");
+  }
+body {
+    background-image: url("../../static/images/blur_background.jpg");
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    /*  background της ιστοσελίδας */
+    color: rgb(0, 0, 0);
+    font-family: myfont, Georgia, serif;
+    font-size: 18px;
+    font-weight: normal;
+    /* Μέγεθος, font και χρώμα γραμματοσειράς */
+    line-height: 1.4em
+      /* κενό που υπάρχει από γραμμή σε γραμμή κειμένου */
+  }
+
+
+/* Μέθοδος "περιορισμού" της ιστοσελίδας στο 80% του συνολικού χώρου */
+.page {
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Στην ουσία είναι το "κουτί" που περιβάλλει όλο το περιεχόμενο της ιστοσελίδας */
+  .box-1 {
+    background-color: #fff5e7;
+    border: #756c59 solid;
+    border-width: 5px;
+    padding: 0px;
+  }
+  .main-info {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: -40px;
+  
+  }
+/* Ο κάθε τίτλος στο πάνω μέρος της σελίδας */
+.main-title {
+    text-align: center;
+    color: #724734;
+    font-size: 40px;
+    margin-top: 5px;
+    line-height: 1em;
+}
+  
+  
+  #category-main {
+    display: flex;
+    justify-content: center;
+}
+
+.main-footer {
+    background-color: #000000;
+    padding-bottom: 3px;
+    text-align: center;
+    color: #dac399;
+    grid-area: footer;
+    /* Στυλ για το footer ( κάτω-κάτω μέρος της σελίδας ) καθώς επίσης χρ΄ωμα και κεντράρισμα κειμένου που βρίσκεται μέσα */
+  }
+  
+  .main-footer a:hover {
+    color: #edeae5;
+    /* Στυλ για το footer ( κάτω-κάτω μέρος της σελίδας ) καθώς επίσης χρ΄ωμα και κεντράρισμα κειμένου που βρίσκεται μέσα */
+  }
+  
+  .main-footer a {
+    color: #dac399;
+    /* Στυλ για το footer ( κάτω-κάτω μέρος της σελίδας ) καθώς επίσης χρ΄ωμα και κεντράρισμα κειμένου που βρίσκεται μέσα */
+  }
+  
+  
