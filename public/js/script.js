@@ -65,8 +65,24 @@ if (window.location.pathname === '/') {
     const searchParams = new URLSearchParams(paramsString);
     const id =  searchParams.get("id");
     
+    const site = `https://wiki-ads.onrender.com/ads?category=${id}`;
 
-    
+// Fetch data from the constructed URL
+fetch(site)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Work with the retrieved data here
+    console.log(data); // Log the fetched data to the console
+    // Process the data as needed
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
 }
 
 
