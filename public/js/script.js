@@ -33,8 +33,9 @@ if (window.location.pathname === '/') {
           let template = '{{#each combinedData}}';
           template += '<div class="category-item">';
           template += '<h2>{{this.mainCategory.title}}</h2>';
+          template += '<a onclick = "categoryFinder({{this.mainCategory.id}})">';
           template += '<img src="{{this.mainCategory.img_url}}" width="400" height="300">';
-          
+          template += '</a>';
           // Display subcategories if available
           template += '{{#each this.subCategories}}';
           template += '<ul>';
@@ -57,4 +58,19 @@ if (window.location.pathname === '/') {
       .catch(error => {
           console.error('There was a problem with the fetch operation:', error);
       });
+}else if(window.location.pathname === '/category.html'){
+    const url = new URL(window.location.href);
+    const paramsString = url.search;
+    
+    const searchParams = new URLSearchParams(paramsString);
+    const id =  searchParams.get("id");
+    
+
+    
+}
+
+
+function categoryFinder(id) {
+    window.location.href = `category.html?id=${encodeURIComponent(id)}`;
+    
 }
