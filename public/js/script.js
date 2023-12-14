@@ -17,7 +17,7 @@ if (window.location.pathname === '/') {
                       return response.json();
                   })
                   .then(subcategories => {
-                      return { mainCategory: category, subCategories: subcategories };
+                      return { mainCategory: category, subCategories: subcategories};
                   })
                   .catch(error => {
                       console.error('Error fetching subcategories:', error);
@@ -33,7 +33,12 @@ if (window.location.pathname === '/') {
           let template = '{{#each combinedData}}';
           template += '<div class="category-item">';
           template += '<h2>{{this.mainCategory.title}}</h2>';
+          template += '{{#ifEquals this.mainCategory.id 1}}'
           template += '<a onclick = "categoryFinder({{this.mainCategory.id}})">';
+          template += '{{/ifEquals}}'
+          template += '{{#ifEquals this.mainCategory.id 3}}'
+          template += '<a onclick = "categoryFinder({{this.mainCategory.id}})">';
+          template += '{{/ifEquals}}'
           template += '<img src="{{this.mainCategory.img_url}}" width="400" height="300">';
           template += '</a>';
           // Display subcategories if available
@@ -92,3 +97,6 @@ function categoryFinder(id) {
     window.location.href = `category.html?id=${encodeURIComponent(id)}`;
     
 }
+Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
