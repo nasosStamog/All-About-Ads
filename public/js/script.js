@@ -1,4 +1,8 @@
 if (window.location.pathname === '/') {
+    //Helper if function for handlebars
+    Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+        return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+    });
   fetch('https://wiki-ads.onrender.com/categories')
       .then(response => {
           if (!response.ok) {
@@ -97,6 +101,3 @@ function categoryFinder(id) {
     window.location.href = `category.html?id=${encodeURIComponent(id)}`;
     
 }
-Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
-    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-});
