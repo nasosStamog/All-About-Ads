@@ -76,25 +76,42 @@ if (window.location.pathname === '/') {
     
     const site = `https://wiki-ads.onrender.com/ads?category=${id}`;
 
-    // Fetch data from the constructed URL
-    if(id!= 2 && id!=4){
-        fetch(site)
-        .then(response => {
-            if (!response.ok) {
-            throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            
-            // Work with the retrieved data here
-            console.log(data); // Log the fetched data to the console
-            // Process the data as needed
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation :', error);
-        });
-    }
+// Fetch data from the constructed URL
+    fetch(site)
+    .then(response => {
+        if (!response.ok) {
+        throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(categoryAds => {
+        
+        // Work with the retrieved data here
+        console.log(categoryAds); // Log the fetched data to the console
+        // Process the data as needed
+        let template = '{{#each categoryAds}}';
+        template += '<div class="category-ad">';
+        template += '<h2>{{this.title}}</h2>';
+        template += '<img src="{{this.images.[0]}}" width = "400" height = "300">';
+        template += '<h6>{{this.description}}</h6>';
+        template += '<h4>Τιμή: {{this.cost}} €</h4>';
+        template += '</div>';
+        template += '{{/each}}';
+        
+        // Compile the template
+        let compiledTemplate = Handlebars.compile(template);
+
+        // Execute the compiled template and store the content in a variable
+        let content = compiledTemplate({ categoryAds });
+
+        // Get the placeholder element and set its inner HTML with the compiled content
+        let placeHolder = document.querySelector('.main-category-ads');
+        placeHolder.innerHTML = content;
+
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation :', error);
+    });
 }
 
 function categoryFinder(id) {
