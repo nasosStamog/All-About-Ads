@@ -45,7 +45,7 @@ if (window.location.pathname === '/') {
           template += '{{#ifEquals this.mainCategory.id 3}}'
           template += '<a onclick = "categoryFinder({{this.mainCategory.id}})">';
           template += '{{/ifEquals}}'
-          template += '<img src="{{this.mainCategory.img_url}}" width="400" height="300">';
+          template += '<img src="https://wiki-ads.onrender.com/{{this.mainCategory.img_url}}" width="400" height="300">';
           template += '</a>';
           // Display subcategories if available
           template += '{{#each this.subCategories}}';
@@ -96,7 +96,7 @@ if (window.location.pathname === '/') {
         let template = '{{#each categoryAds}}';
         template += '<div class="category-ad">';
         template += '<h2>{{this.title}}</h2>';
-        template += '<img src="{{this.images.[0]}}" width = "400" height = "300">';
+        template += '<img src="https://wiki-ads.onrender.com/{{this.images.[0]}}" width = "400" height = "300">';
         template += '<h5>{{this.description}}</h5>';
         template += '<h3>Τιμή: {{this.cost}} €</h3>';
         template += '</div>';
@@ -145,7 +145,7 @@ if (window.location.pathname === '/') {
         template += '<h2>{{this.title}}</h2>';
         template += '<div class="images-box">';
         template += '{{#each this.images}}';
-        template += '<img src="{{this}}" width = "400" height = "300">';
+        template += '<img src="https://wiki-ads.onrender.com/{{this}}" width = "400" height = "300">';
         template += '{{/each}}';
         template += '</div>';
         template += '<h5>{{this.description}}</h5>';
@@ -153,9 +153,9 @@ if (window.location.pathname === '/') {
         template += '<tbody>';
         template += '{{#each (split this.features "; ")}}'; 
         template += '<tr>';
-        template += '{{#each (split this ": ")}}'; 
+        
         template += '<td>{{this}}</td>';
-        template += '{{/each}}';
+        
         template += '</tr>';
         template += '{{/each}}';
         template += '</tbody>';
