@@ -181,10 +181,10 @@ body {
   margin-bottom: 10px; /* Optional margin to create space between category-ad divs */
 }
 .main-subcategory-ads{
-  padding: 20px;
+  padding: 10px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Two columns per row */
-  grid-gap: 30px; /* Optional gap between grid items */
+  grid-template-columns: repeat(2, 1fr); /* Two columns per row */
+  grid-gap: 10px; /* Optional gap between grid items */
 }
 .subcategory-ad {
   text-align: center;
