@@ -116,6 +116,49 @@ if (window.location.pathname === '/') {
     .catch(error => {
         console.error('There was a problem with the fetch operation :', error);
     });
+}else{
+    const url = new URL(window.location.href);
+    const paramsString = url.search;
+    
+    const searchParams = new URLSearchParams(paramsString);
+    const id =  searchParams.get("id");
+    
+    const site = `https://wiki-ads.onrender.com/ads?subcategory=${id}`;
+
+    fetch(site)
+    .then(response => {
+        if (!response.ok) {
+        throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(subCategoryAds => {
+        
+        let template = '{{#each subCategoryAds}}';
+        template += '<div class="category-ad">';
+        template += '<h2>{{this.title}}</h2>';
+        template += '{{#each this.images}}';
+        template += '<img src="{{this}}" width = "400" height = "300">';
+        template += '{{/each}}';
+       
+        template += '<h5>{{this.description}}</h5>';
+        template += '<h3>Τιμή: {{this.cost}} €</h3>';
+        template += '</div>';
+        template += '{{/each}}';
+        
+        // Compile the template
+        let compiledTemplate = Handlebars.compile(template);
+
+        // Execute the compiled template and store the content in a variable
+        let content = compiledTemplate({ subCategoryAds });
+
+        // Get the placeholder element and set its inner HTML with the compiled content
+        let placeHolder = document.querySelector('.main-subcategory-ads');
+        placeHolder.innerHTML = content;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation :', error);
+    });
 }
 
 function categoryFinder(id) {
