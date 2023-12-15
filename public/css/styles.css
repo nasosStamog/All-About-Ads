@@ -195,3 +195,53 @@ body {
   margin-bottom: 10px; /* Optional margin to create space between category-ad divs */
 }
 
+/* Τα παρακάτω αφορούν τον πίνακα με τα χαρακτηριστικά του αμαξιού */
+.features-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+
+
+}
+
+/* Ανα μια γραμμή να έχει διαφορετικό χρώμα εναλλάξ */
+.features-table tr:nth-child(even) {
+  background-color: #dac399;
+}
+
+
+.features-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Τα αριστερά να είναι bold */
+.features-table td:first-child {
+  font-weight: bold;
+}
+
+.features-table tr:hover {
+  background-color: #e0e0e0;
+}
+
+.features-table td {
+  border: 2px solid #756c59;
+}
+.images-box{
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns per row */
+  grid-gap:5px; /* Optional gap between grid items */
+}
+.images-box img{
+  border: #33322f solid;
+  border-width: 3px;
+  transition: transform 0.3s ease; 
+}
+.images-box img:hover {
+  transform: scale(1.0125); 
+}

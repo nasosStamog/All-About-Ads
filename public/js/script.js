@@ -117,6 +117,12 @@ if (window.location.pathname === '/') {
         console.error('There was a problem with the fetch operation :', error);
     });
 }else{
+    // Registering a Handlebars helper function named "split"
+    Handlebars.registerHelper('split', function (stringToSplit, separator) {
+    // Split the string using the provided separator and return the resulting array
+    return stringToSplit.split(separator);
+    });
+  
     const url = new URL(window.location.href);
     const paramsString = url.search;
     
@@ -137,11 +143,23 @@ if (window.location.pathname === '/') {
         let template = '{{#each subCategoryAds}}';
         template += '<div class="category-ad">';
         template += '<h2>{{this.title}}</h2>';
+        template += '<div class="images-box">';
         template += '{{#each this.images}}';
         template += '<img src="{{this}}" width = "400" height = "300">';
         template += '{{/each}}';
-       
+        template += '</div>';
         template += '<h5>{{this.description}}</h5>';
+        template += '<table class="features-table">';
+        template += '<tbody>';
+        template += '{{#each (split this.features "; ")}}'; 
+        template += '<tr>';
+        template += '{{#each (split this ": ")}}'; 
+        template += '<td>{{this}}</td>';
+        template += '{{/each}}';
+        template += '</tr>';
+        template += '{{/each}}';
+        template += '</tbody>';
+        template += '</table>';
         template += '<h3>Τιμή: {{this.cost}} €</h3>';
         template += '</div>';
         template += '{{/each}}';
