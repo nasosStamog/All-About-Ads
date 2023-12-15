@@ -21,6 +21,7 @@ if (window.location.pathname === '/') {
                       return response.json();
                   })
                   .then(subcategories => {
+                    //console.log(subcategories[0].id)
                       return { mainCategory: category, subCategories: subcategories};
                   })
                   .catch(error => {
@@ -33,6 +34,7 @@ if (window.location.pathname === '/') {
           return Promise.all(subcategoryPromises);
       })
       .then(combinedData => {
+        
           // Fetch the template content for the categories with subcategories
           let template = '{{#each combinedData}}';
           template += '<div class="category-item">';
@@ -48,7 +50,9 @@ if (window.location.pathname === '/') {
           // Display subcategories if available
           template += '{{#each this.subCategories}}';
           template += '<ul>';
+          template += '<a onclick = "subCategoryFinder({{this.id}})">';
           template += '<li id="subcategory-item">{{this.title}}</li>';
+          template += '</a>';
           template += '</ul>';
           template += '{{/each}}';
           template += '</div>';
@@ -93,8 +97,8 @@ if (window.location.pathname === '/') {
         template += '<div class="category-ad">';
         template += '<h2>{{this.title}}</h2>';
         template += '<img src="{{this.images.[0]}}" width = "400" height = "300">';
-        template += '<h6>{{this.description}}</h6>';
-        template += '<h4>Τιμή: {{this.cost}} €</h4>';
+        template += '<h5>{{this.description}}</h5>';
+        template += '<h3>Τιμή: {{this.cost}} €</h3>';
         template += '</div>';
         template += '{{/each}}';
         
@@ -116,5 +120,10 @@ if (window.location.pathname === '/') {
 
 function categoryFinder(id) {
     window.location.href = `category.html?id=${encodeURIComponent(id)}`;
+    
+}
+function subCategoryFinder(id) {
+    
+    window.location.href = `subcategory.html?id=${encodeURIComponent(id)}`;
     
 }
