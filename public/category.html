@@ -16,10 +16,25 @@
     <body>
         <div class="page">
             <section class="box-1">
+                <div class="login-container">
+                    <h2>Σύνδεση Χρήστη</h2>
+                    <form id="login-form">
+                      <label for="username">Username:</label>
+                      <input type="text" id="username" name="username" required><br><br>
+                
+                      <label for="password">Password:</label>
+                      <input type="password" id="password" name="password" required><br><br>
+                
+                      <input type="submit" value="Login">
+                    </form>
+                    <div id="loginMessage"></div>
+                </div>
                 <header class="button-container">
                 <button class="button-84" role="button" onclick="window.location.href = '/';">Αρχική σελίδα</button>
+                <button class="button-84" role="button" onclick="setLoginForm()">Σύνδεση Χρήστη</button>
                 </header>
                 <hr id="line">
+                
                     <article class="main-info">
                         
                         <div class="main-title">
@@ -32,9 +47,9 @@
                         
                     </article>    
                     
-                    <section class="main-category-ads">
+                    <div class="main-category-ads">
                         
-                    </section> 
+                    </div> 
                 
                 <section class="main-footer">
                     <footer>

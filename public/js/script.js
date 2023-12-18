@@ -1,3 +1,6 @@
+var user;
+var sessionId;
+
 if (window.location.pathname === '/') {
     //Helper if function for handlebars
     Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
@@ -72,6 +75,7 @@ if (window.location.pathname === '/') {
           console.error('There was a problem with the fetch operation:', error);
       });
 }else if(window.location.pathname === '/category.html'){
+
     const url = new URL(window.location.href);
     const paramsString = url.search;
     
@@ -99,6 +103,7 @@ if (window.location.pathname === '/') {
         template += '<img src="https://wiki-ads.onrender.com/{{this.images.[0]}}" width = "400" height = "300">';
         template += '<h5>{{this.description}}</h5>';
         template += '<h3>Τιμή: {{this.cost}} €</h3>';
+        template += `<button class="button-24" role="button" onclick="addtoFavorites('{{this.id}}','{{this.title}}','{{this.description}}','{{this.cost}}','https://wiki-ads.onrender.com/{{this.images.[0]}}' )">Προσθήκη στα Αγαπημένα</button>`;
         template += '</div>';
         template += '{{/each}}';
         
@@ -116,6 +121,56 @@ if (window.location.pathname === '/') {
     .catch(error => {
         console.error('There was a problem with the fetch operation :', error);
     });
+//--------------------------------------------Login Service – LS-----------------------------------------------------
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+    
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+    
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Σφάλμα κατά την ταυτοποίηση');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Εμφανίζει μήνυμα επιτυχούς ταυτοποίησης στο loginMessage div
+            document.getElementById('loginMessage').innerHTML = `Επιτυχής ταυτοποίηση. Session ID: ${data.sessionId}`;
+            user = data.username;
+            sessionId = data.sessionId
+            let placeHolder = document.querySelector('.button-container');
+            let content = '<div class="user-id">';
+            content += `<h2>Επιτυχής Σύνδεση</h2>`
+            content += `<h4> ${username}, Καλως'όρισες!</h4>`
+            content += '</div>'
+            placeHolder.innerHTML += content
+            const loginContainer = document.querySelector('.login-container');
+            loginContainer.style.display = 'none';
+            loginOn = false;
+            // Get the button element
+            const myButton = document.querySelector('.button-24');
+            const currentOnClick = myButton.getAttribute('onclick');
+            myButton.setAttribute('onclick', currentOnClick.replace("'undefined'", `${data.username}`));
+        })
+        .catch(error => {
+            // Εμφανίζει μήνυμα σφάλματος ταυτοποίησης στο loginMessage div
+            document.getElementById('loginMessage').innerHTML = 'Ανεπιτυχής ταυτοποίηση. Ελέγξτε τα στοιχεία σας.';
+        });
+    });
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
+
 }else{
     // Registering a Handlebars helper function named "split"
     Handlebars.registerHelper('split', function (stringToSplit, separator) {
@@ -177,6 +232,11 @@ if (window.location.pathname === '/') {
     .catch(error => {
         console.error('There was a problem with the fetch operation :', error);
     });
+
+    
+
+
+
 }
 
 function categoryFinder(id) {
@@ -187,4 +247,73 @@ function subCategoryFinder(id) {
     
     window.location.href = `subcategory.html?id=${encodeURIComponent(id)}`;
     
+}
+
+var loginOn = false;
+function setLoginForm(){
+    const loginContainer = document.querySelector('.login-container');
+
+    if(loginOn!=true){
+        loginContainer.style.display = 'block';
+        loginOn = true;
+
+    }else{
+        loginContainer.style.display = 'none';
+        loginOn = false;
+
+    }
+    
+}
+
+
+
+
+
+function addtoFavorites(id,title,description,cost,imageUrl){
+    if (user === undefined) {
+        displayMessage('Παρακαλώ συνδεθείτε για προσθήκη στη λίστα αγαπημένων', 2000); // 3000 milliseconds = 3 seconds
+      }else{
+        console.log(user)
+      }
+   
+
+    fetch('/users') // Making a GET request to /users endpoint
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parsing JSON data from response
+        })
+        .then(users => {
+            // Handle the received users data
+            console.log('Users list:', users);
+            // Process the users data as needed
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+
+
+function displayMessage(message, duration) {
+    const messageContainer = document.createElement('div');
+    messageContainer.textContent = message;
+    messageContainer.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+        background-color: #333;
+        color: white;
+        border-radius: 5px;
+        z-index: 9999;
+    `;
+
+    document.body.appendChild(messageContainer);
+
+    setTimeout(function () {
+        messageContainer.style.display = 'none';
+        document.body.removeChild(messageContainer);
+    }, duration);
 }
