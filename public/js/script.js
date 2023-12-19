@@ -128,7 +128,7 @@ if (window.location.pathname === '/') {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
     
-        fetch('/login', {
+        fetch('Login-Service', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -155,10 +155,6 @@ if (window.location.pathname === '/') {
             const loginContainer = document.querySelector('.login-container');
             loginContainer.style.display = 'none';
             loginOn = false;
-            // Get the button element
-            const myButton = document.querySelector('.button-24');
-            const currentOnClick = myButton.getAttribute('onclick');
-            myButton.setAttribute('onclick', currentOnClick.replace("'undefined'", `${data.username}`));
         })
         .catch(error => {
             // Εμφανίζει μήνυμα σφάλματος ταυτοποίησης στο loginMessage div
@@ -274,24 +270,39 @@ function addtoFavorites(id,title,description,cost,imageUrl){
         displayMessage('Παρακαλώ συνδεθείτε για προσθήκη στη λίστα αγαπημένων', 2000); // 3000 milliseconds = 3 seconds
       }else{
         console.log(user)
-      }
-   
-
-    fetch('/users') // Making a GET request to /users endpoint
+        const queryParams = `?id=${id}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&cost=${cost}&imageUrl=${encodeURIComponent(imageUrl)}&username=${encodeURIComponent(user)}&sessionId=${encodeURIComponent(sessionId)}`;
+        fetch(`/Add-To-Favorites-Service${queryParams}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+                // Add other headers if needed
+            }
+        })
         .then(response => {
             if (!response.ok) {
-            throw new Error('Network response was not ok');
+                throw new Error('Network response was not ok');
             }
-            return response.json(); // Parsing JSON data from response
+            return response.json(); // Parsing JSON data from response if required
         })
-        .then(users => {
-            // Handle the received users data
-            console.log('Users list:', users);
-            // Process the users data as needed
+        .then(data => {
+           
+            if(data.addedtoFavorite && data.authorized){
+                displayMessage('Επιτυχής προσθήκη στη λίστα αγαπημένων', 2000);
+            }
+            if(!data.authorized){
+                displayMessage('Μη εξουσιοδοτημένος χρήστης', 2000)
+            }
+            if(data.doubleId){
+                displayMessage('Η αγγελία που προσθέσατε υπάρχει ήδη στα αγαπημένα.', 2000)
+            }
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
         });
+      }
+   
+
+    
 }
 
 
