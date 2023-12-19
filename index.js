@@ -65,10 +65,10 @@ app.get('/Add-To-Favorites-Service', (req, res) => {
       doubleId = true;
     }
   }
-    
+    if(!doubleId){
     //προσθήκη αγαπημένης αγγελίας στην λίστα [userId] κάθε χρήστη στην favouriteAds
     favouriteAds[userIdIndex].push(favouriteAd)
-    
+    }
     //Αποστολή κωδικού επιτυχημένης καταχώρησης
     addedtoFavorite = true;
     
