@@ -4,7 +4,7 @@ const path = require('path');
 const uuid = require('uuid'); 
 // Serve static HTML files from the 'public' directory
 let users = [];
-let favouriteAds = [];
+let favoriteAds = [];
 let userIdIndex = 0;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   });
 
 
-  app.post('/Login-Service', (req, res) => {
+app.post('/Login-Service', (req, res) => {
   const username = req.body.username;
   // Access the username here and perform necessary actions
 
@@ -35,7 +35,7 @@ app.get('/Add-To-Favorites-Service', (req, res) => {
   let userId = [username,sessionId]
   let authorized = false;
   let addedtoFavorite = false;
-  const favouriteAd = [id,title,description,cost,imageUrl,username,sessionId]
+  const favoriteAd = [id,title,description,cost,imageUrl,username,sessionId]
   
   users.map(user => {
     //έλεγχος ύπαρξης χρήστη
@@ -50,32 +50,66 @@ app.get('/Add-To-Favorites-Service', (req, res) => {
   if(authorized){
     
     //έλεγχος για ύπαρξη χρήστη στη λίστα των αγαπημένων
-    const userIdExists = favouriteAds.some(user => user[0] === userId[0] && user[1] === userId[1]);
+    const userIdExists = favoriteAds.some(user => user[0] === userId[0] && user[1] === userId[1]);
     
     if(!userIdExists){
-    //προσθήκη ταυτοποιημένου χρήστη στην favouriteAds
-    favouriteAds.push(userId)
-    userIdIndex = favouriteAds.findIndex(user => JSON.stringify(user) === JSON.stringify(userId));
+    //προσθήκη ταυτοποιημένου χρήστη στην favoriteAds
+    favoriteAds.push(userId)
+    userIdIndex = favoriteAds.findIndex(user => JSON.stringify(user) === JSON.stringify(userId));
     
     }
   
 
-    for (let i = 2; i < favouriteAds[userIdIndex].length; i++) {
-      if(favouriteAds[userIdIndex][i].includes(id)){
+    for (let i = 2; i < favoriteAds[userIdIndex].length; i++) {
+      if(favoriteAds[userIdIndex][i].includes(id)){
       doubleId = true;
     }
   }
     if(!doubleId){
-    //προσθήκη αγαπημένης αγγελίας στην λίστα [userId] κάθε χρήστη στην favouriteAds
-    favouriteAds[userIdIndex].push(favouriteAd)
+    //προσθήκη αγαπημένης αγγελίας στην λίστα [userId] κάθε χρήστη στην favoriteAds
+    favoriteAds[userIdIndex].push(favoriteAd)
     }
     //Αποστολή κωδικού επιτυχημένης καταχώρησης
     addedtoFavorite = true;
+    
     
   }
   res.json({authorized,addedtoFavorite,doubleId});
   
 });
+
+app.get('/Favorites-Retrieval-Service', (req, res) => {
+  const {username, sessionId } = req.query;;
+  let userId = [username,sessionId]
+  let authorized = false;
+  
+  let favoriteList = [];
+  users.map(user => {
+    //έλεγχος ύπαρξης χρήστη
+    if(userId[0] === user[0] && userId[1] === user[1]){
+      authorized = true;
+      
+  }else{
+    authorized = false;
+  }
+  })
+  if(authorized){
+    //add user favorites to the list the server will send
+    for (let i = 2; i < favoriteAds[userIdIndex].length; i++) {
+      favoriteList.push(favoriteAds[userIdIndex][i])
+  }
+    res.json(favoriteList)
+  
+  
+  }
+
+  
+
+
+})
+
+
+
 
 
 const PORT = process.env.PORT || 3000;

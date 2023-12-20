@@ -95,7 +95,6 @@ if (window.location.pathname === '/') {
     .then(categoryAds => {
         
         // Work with the retrieved data here
-        console.log(categoryAds); // Log the fetched data to the console
         // Process the data as needed
         let template = '{{#each categoryAds}}';
         template += '<div class="category-ad">';
@@ -143,10 +142,15 @@ if (window.location.pathname === '/') {
         })
         .then(data => {
             // Εμφανίζει μήνυμα επιτυχούς ταυτοποίησης στο loginMessage div
+            let placeHolder = document.querySelector('.button-container');
+            let favButton = `<button class="button-84" role="button" onclick="userFavoritesFinder('${data.username}','${data.sessionId}')">Προβολή Αγαπημένων Αγγελιών</button>`;
+
+            placeHolder.innerHTML += favButton
+            
             document.getElementById('loginMessage').innerHTML = `Επιτυχής ταυτοποίηση. Session ID: ${data.sessionId}`;
             user = data.username;
             sessionId = data.sessionId
-            let placeHolder = document.querySelector('.button-container');
+            
             let content = '<div class="user-id">';
             content += `<h2>Επιτυχής Σύνδεση</h2>`
             content += `<h4> ${username}, Καλως'όρισες!</h4>`
@@ -167,7 +171,7 @@ if (window.location.pathname === '/') {
 
 
 
-}else{
+}else if(window.location.pathname === '/subcategory.html'){
     // Registering a Handlebars helper function named "split"
     Handlebars.registerHelper('split', function (stringToSplit, separator) {
     // Split the string using the provided separator and return the resulting array
@@ -233,6 +237,55 @@ if (window.location.pathname === '/') {
 
 
 
+}else{
+    const url = new URL(window.location.href);
+    const paramsString = url.search;
+    
+    const searchParams = new URLSearchParams(paramsString);
+    const user =  searchParams.get("username");
+    const session = searchParams.get("sessionId");
+    
+    const queryParams = `?username=${encodeURIComponent(user)}&sessionId=${encodeURIComponent(session)}`;
+    fetch(`/Favorites-Retrieval-Service${queryParams}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+            // Add other headers if needed
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parsing JSON data from response if required
+    })
+    .then(favoriteAds => {
+        console.log(favoriteAds)
+        let template = '{{#each favoriteAds}}';
+        template += '<div class="favorite-ad">';
+        template += '<h2>{{this.[1]}}</h2>';
+        template += '<img src="{{this.[4]}}" width = "400" height = "300">';
+        template += '<h5>{{this.[2]}}</h5>';
+        template += '<h3>Τιμή: {{this.[3]}} €</h3>';
+        template += '</div>';
+        template += '{{/each}}';
+        
+        // Compile the template
+        let compiledTemplate = Handlebars.compile(template);
+
+        // Execute the compiled template and store the content in a variable
+        let content = compiledTemplate({ favoriteAds });
+
+        // Get the placeholder element and set its inner HTML with the compiled content
+        let placeHolder = document.querySelector('.main-favorite-ads');
+        placeHolder.innerHTML = content;
+       
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+
+
 }
 
 function categoryFinder(id) {
@@ -245,14 +298,21 @@ function subCategoryFinder(id) {
     
 }
 
+function userFavoritesFinder (userName,sessionID){
+    const url = `favorite-ads.html?username=${encodeURIComponent(userName)}&sessionId=${encodeURIComponent(sessionID)}`;
+    
+    // Open the URL in a new tab
+    window.open(url, '_blank');
+}
+
+
+
 var loginOn = false;
 function setLoginForm(){
     const loginContainer = document.querySelector('.login-container');
-
     if(loginOn!=true){
         loginContainer.style.display = 'block';
         loginOn = true;
-
     }else{
         loginContainer.style.display = 'none';
         loginOn = false;
