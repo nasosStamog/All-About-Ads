@@ -19,11 +19,9 @@ app.post('/Login-Service', (req, res) => {
   const username = req.body.username;
   // Access the username here and perform necessary actions
 
-  // For example, log the username to the console
     const sessionId = uuid.v4();
     const userid = [username,sessionId]
     users.push(userid)
-    console.log('List:',users )
     res.json({ sessionId,username });
   
 });

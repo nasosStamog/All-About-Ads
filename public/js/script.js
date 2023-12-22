@@ -24,7 +24,7 @@ if (window.location.pathname === '/') {
                       return response.json();
                   })
                   .then(subcategories => {
-                    //console.log(subcategories[0].id)
+                    
                       return { mainCategory: category, subCategories: subcategories};
                   })
                   .catch(error => {
@@ -260,7 +260,7 @@ if (window.location.pathname === '/') {
         return response.json(); // Parsing JSON data from response if required
     })
     .then(favoriteAds => {
-        console.log(favoriteAds)
+        
         let template = '{{#each favoriteAds}}';
         template += '<div class="favorite-ad">';
         template += '<h2>{{this.[1]}}</h2>';
@@ -329,7 +329,7 @@ function addtoFavorites(id,title,description,cost,imageUrl){
     if (user === undefined) {
         displayMessage('Παρακαλώ συνδεθείτε για προσθήκη στη λίστα αγαπημένων', 2000); // 3000 milliseconds = 3 seconds
       }else{
-        console.log(user)
+        
         const queryParams = `?id=${id}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&cost=${cost}&imageUrl=${encodeURIComponent(imageUrl)}&username=${encodeURIComponent(user)}&sessionId=${encodeURIComponent(sessionId)}`;
         fetch(`/Add-To-Favorites-Service${queryParams}`, {
             method: 'GET',
