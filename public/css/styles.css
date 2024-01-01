@@ -77,8 +77,22 @@ body {
     /* Στυλ για το footer ( κάτω-κάτω μέρος της σελίδας ) καθώς επίσης χρ΄ωμα και κεντράρισμα κειμένου που βρίσκεται μέσα */
   }
   
-.main-categories{
-  display: flex;
+  @media (max-width: 950px) {
+    #main-description {
+      font-size: medium;
+    }
+    
+     .main-footer  {
+      font-size: small;
+    }
+    
+  }
+
+  .main-categories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
+    grid-template-rows: repeat(2,1fr);
+  
 }
 .category-item{
   text-align: center;
@@ -108,6 +122,30 @@ body {
 #subcategory-item:hover {
   background-color: #a16641; /* Change background color on hover */
 }
+
+/* For screens larger than 768px and smaller than 1024px */
+@media (max-width: 1380px) {
+  .main-categories {
+      grid-template-columns: repeat(2, 1fr); /* Two columns for smaller screens */
+      grid-template-rows: auto; /* Reset the number of rows for smaller screens */
+  }
+}
+
+@media (max-width: 425px) {
+  .main-categories {
+      grid-template-columns: 1fr; /* Two columns for smaller screens */
+      grid-template-rows: auto; /* Reset the number of rows for smaller screens */
+  }
+}
+
+@media (max-width: 950px) {
+  .category-item img{
+    height: 250px;
+    width: 250px;
+  }
+
+}
+
 
 .button-container{
   display: flex;
@@ -219,8 +257,19 @@ body {
   padding: 10px;
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Two columns per row */
-  grid-gap: 10px; /* Optional gap between grid items */
+  grid-gap: 5px; /* Optional gap between grid items */
 }
+
+@media (max-width: 1024px) {
+  .main-subcategory-ads{
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr; /* Two columns per row */
+    grid-template-rows: auto;
+  }
+}
+
+
 .subcategory-ad {
   text-align: center;
   justify-content: center;
@@ -266,6 +315,10 @@ body {
 .features-table td {
   border: 2px solid #756c59;
 }
+
+
+
+
 .images-box{
   padding: 20px;
   display: grid;
@@ -280,6 +333,27 @@ body {
 .images-box img:hover {
   transform: scale(1.0125); 
 }
+@media (max-width: 724px) {
+  .features-table {
+    font-size: small;
+  
+  }
+  .images-box img{
+    width: 95%;
+    height: 80%;
+  }
+}
+@media (max-width: 425px) {
+  .images-box{
+    
+    grid-template-columns: 1fr; /* Two columns per row */
+   
+  }
+}
+
+
+
+
 .blurred{
   filter: blur(5px);
 }
