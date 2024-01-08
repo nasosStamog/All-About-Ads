@@ -275,7 +275,7 @@ body {
    
   }
 }
-@media (max-width: 1024px) {
+@media (max-width: 1424px) {
   .main-subcategory-ads{
     padding: 10px;
     display: grid;
@@ -284,14 +284,7 @@ body {
   }
 }
 
-@media (max-width: 1024px) {
-  .main-subcategory-ads{
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 1fr; /* Two columns per row */
-    grid-template-rows: auto;
-  }
-}
+
 
 
 .subcategory-ad {
