@@ -283,6 +283,17 @@ body {
     grid-template-rows: auto;
   }
 }
+
+@media (max-width: 1024px) {
+  .main-subcategory-ads{
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr; /* Two columns per row */
+    grid-template-rows: auto;
+  }
+}
+
+
 .subcategory-ad {
   text-align: center;
   justify-content: center;
@@ -330,6 +341,10 @@ body {
 .features-table td {
   border: 2px solid #756c59;
 }
+
+
+
+
 .images-box{
   padding: 20px;
   display: grid;
